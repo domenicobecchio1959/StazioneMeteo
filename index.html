@@ -45,8 +45,8 @@
 <div id="time" style="font-size:22px;">--</div>
 
 <script>
-const channelID = "IL_TUO_CHANNEL_ID";
-const readAPI = "LA_TUA_READ_API_KEY";
+const channelID = "3214007";
+const readAPI = "VCGZD38ITPCWT974";
 
 function aggiornaDati() {
   fetch(`https://api.thingspeak.com/channels/${channelID}/feeds.json?api_key=${readAPI}&results=1`)
@@ -66,5 +66,6 @@ setInterval(aggiornaDati, 15000);
 
 </body>
 </html>
+
 
 
