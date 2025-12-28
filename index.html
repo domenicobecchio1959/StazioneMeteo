@@ -53,9 +53,19 @@ function aggiornaDati() {
     .then(response => response.json())
     .then(data => {
       const feed = data.feeds[0];
+
       document.getElementById("temp").innerText = feed.field1 + " °C";
       document.getElementById("hum").innerText = feed.field2 + " %";
-      document.getElementById("time").innerText = feed.created_at.replace("T", " ").replace("Z", "");
+
+      // --- CORREZIONE ORA UTC → LOCALE ---
+      const utcDate = new Date(feed.created_at);
+      const localTime = utcDate.toLocaleString("it-IT", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+
+      document.getElementById("time").innerText = localTime;
     })
     .catch(err => console.log("Errore:", err));
 }
