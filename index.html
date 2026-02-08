@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -25,6 +26,10 @@
     font-size: 24px;
     color: #555;
   }
+  .small {
+    font-size: 22px;
+    color: #444;
+  }
 </style>
 </head>
 <body>
@@ -41,12 +46,41 @@
   <div id="hum" class="value">-- %</div>
 </div>
 
+<div>
+  <div class="label">Pressione</div>
+  <div id="press" class="value">-- hPa</div>
+</div>
+
+<div>
+  <div class="label">Vento</div>
+  <div id="wind" class="value">-- m/s</div>
+</div>
+
+<div>
+  <div class="label">Direzione</div>
+  <div id="dir" class="value">--°</div>
+  <div id="dirtext" class="small">--</div>
+</div>
+
+<div>
+  <div class="label">Beaufort</div>
+  <div id="beau" class="value">--</div>
+</div>
+
 <div class="label">Ultimo aggiornamento:</div>
-<div id="time" style="font-size:22px;">--</div>
+<div id="time" class="small">--</div>
 
 <script>
 const channelID = "3214007";
 const readAPI = "VCGZD38ITPCWT974";
+
+// Mappa direzioni (stessa del gateway)
+const WIND_DIR_TEXT = [
+  "N - Tramontana","NNE - Grecale","NE - Grecale","ENE - Grecale","E - Levante",
+  "ESE - Scirocco","SE - Scirocco","SSE - Scirocco","S - Ostro","SSW - Libeccio",
+  "SW - Libeccio","WSW - Libeccio","W - Ponente","WNW - Maestrale",
+  "NW - Maestrale","NNW - Tramontana"
+];
 
 function aggiornaDati() {
   fetch(`https://api.thingspeak.com/channels/${channelID}/feeds.json?api_key=${readAPI}&results=1`)
@@ -54,10 +88,18 @@ function aggiornaDati() {
     .then(data => {
       const feed = data.feeds[0];
 
-      document.getElementById("temp").innerText = feed.field1 + " °C";
-      document.getElementById("hum").innerText = feed.field2 + " %";
+      document.getElementById("temp").innerText  = feed.field1 + " °C";
+      document.getElementById("hum").innerText   = feed.field2 + " %";
+      document.getElementById("press").innerText = feed.field3 + " hPa";
+      document.getElementById("wind").innerText  = feed.field4 + " m/s";
 
-      // --- CORREZIONE ORA UTC → LOCALE ---
+      const dir = parseInt(feed.field5);
+      document.getElementById("dir").innerText = dir + "°";
+      document.getElementById("dirtext").innerText = WIND_DIR_TEXT[dir] || "--";
+
+      document.getElementById("beau").innerText = feed.field6;
+
+      // --- ORA LOCALE ---
       const utcDate = new Date(feed.created_at);
       const localTime = utcDate.toLocaleString("it-IT", {
         hour: "2-digit",
