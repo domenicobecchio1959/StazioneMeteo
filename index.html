@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -74,12 +73,29 @@
 const channelID = "3214007";
 const readAPI = "VCGZD38ITPCWT974";
 
-// Mappa direzioni (stessa del gateway)
+// Direzioni vento
 const WIND_DIR_TEXT = [
   "N - Tramontana","NNE - Grecale","NE - Grecale","ENE - Grecale","E - Levante",
   "ESE - Scirocco","SE - Scirocco","SSE - Scirocco","S - Ostro","SSW - Libeccio",
   "SW - Libeccio","WSW - Libeccio","W - Ponente","WNW - Maestrale",
   "NW - Maestrale","NNW - Tramontana"
+];
+
+// Scala Beaufort testuale
+const BEAUFORT_TEXT = [
+  "Calmo",
+  "Bava di vento",
+  "Brezza leggera",
+  "Brezza tesa",
+  "Vento moderato",
+  "Vento teso",
+  "Vento fresco",
+  "Vento forte",
+  "Burrasca",
+  "Burrasca forte",
+  "Tempesta",
+  "Tempesta violenta",
+  "Uragano"
 ];
 
 function aggiornaDati() {
@@ -97,9 +113,10 @@ function aggiornaDati() {
       document.getElementById("dir").innerText = dir + "°";
       document.getElementById("dirtext").innerText = WIND_DIR_TEXT[dir] || "--";
 
-      document.getElementById("beau").innerText = feed.field6;
+      const beau = parseInt(feed.field6);
+      document.getElementById("beau").innerText = BEAUFORT_TEXT[beau] || "--";
 
-      // --- ORA LOCALE ---
+      // Ora locale
       const utcDate = new Date(feed.created_at);
       const localTime = utcDate.toLocaleString("it-IT", {
         hour: "2-digit",
@@ -118,6 +135,8 @@ setInterval(aggiornaDati, 15000);
 
 </body>
 </html>
+
+
 
 
 
