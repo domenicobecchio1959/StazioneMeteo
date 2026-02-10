@@ -98,7 +98,27 @@ const BEAUFORT_TEXT = [
   "Uragano"
 ];
 
-function aggiornaDati() {
+function getWindDirectionIndex(gradi) {
+  if (gradi >= 348 || gradi < 11) return 0;
+  else if (gradi >= 11 && gradi < 33) return 1;
+  else if (gradi >= 33 && gradi < 56) return 2;
+  else if (gradi >= 56 && gradi < 78) return 3;
+  else if (gradi >= 78 && gradi < 101) return 4;
+  else if (gradi >= 101 && gradi < 123) return 5;
+  else if (gradi >= 123 && gradi < 146) return 6;
+  else if (gradi >= 146 && gradi < 168) return 7;
+  else if (gradi >= 168 && gradi < 191) return 8;
+  else if (gradi >= 191 && gradi < 213) return 9;
+  else if (gradi >= 213 && gradi < 236) return 10;
+  else if (gradi >= 236 && gradi < 258) return 11;
+  else if (gradi >= 258 && gradi < 281) return 12;
+  else if (gradi >= 281 && gradi < 303) return 13;
+  else if (gradi >= 303 && gradi < 326) return 14;
+  else if (gradi >= 326 && gradi < 348) return 15;
+  return 0;
+}
+
+  function aggiornaDati() {
   fetch(`https://api.thingspeak.com/channels/${channelID}/feeds.json?api_key=${readAPI}&results=1`)
     .then(response => response.json())
     .then(data => {
@@ -111,7 +131,9 @@ function aggiornaDati() {
 
       const dir = parseInt(feed.field5);
       document.getElementById("dir").innerText = dir + "°";
-      document.getElementById("dirtext").innerText = WIND_DIR_TEXT[dir] || "--";
+      const dirIndex = getWindDirectionIndex(dir);
+      document.getElementById("dirtext").innerText = WIND_DIR_TEXT[dirIndex];
+
 
       const beau = parseInt(feed.field6);
       document.getElementById("beau").innerText = BEAUFORT_TEXT[beau] || "--";
@@ -135,6 +157,7 @@ setInterval(aggiornaDati, 15000);
 
 </body>
 </html>
+
 
 
 
