@@ -157,7 +157,7 @@ function aggiornaDati() {
       document.getElementById("temp").innerText = f.field1 + " °C";
       document.getElementById("hum").innerText = f.field2 + " %";
       document.getElementById("press").innerText = f.field3 + " hPa";
-      document.getElementById("wind").innerText = f.field4 + " m/s";
+      document.getElementById("wind").innerText = f.field4 + " Km/h";
 
       const dir = parseInt(f.field5);
       document.getElementById("dir").innerText = dir + "°";
@@ -181,6 +181,7 @@ setInterval(aggiornaDati, 15000);
 
 </body>
 </html>
+
 
 
 
