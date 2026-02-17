@@ -103,7 +103,8 @@
 <!-- BEAUFORT -->
 <div class="card">
   <div class="label">Beaufort</div>
-  <div id="beaufortText" class="value">--</div>
+  <div id="beaufortText" class="small">--</div>
+
 
 </div>
 
@@ -165,7 +166,7 @@ function aggiornaDati() {
       document.getElementById("dirtext").innerText = WIND_DIR_TEXT[getWindDirectionIndex(dir)];
 
       const beau = parseInt(f.field6);
-      document.getElementById("beau").innerText = BEAUFORT_TEXT[beau] || "--";
+      document.getElementById("beaufortText").innerText = BEAUFORT_TEXT[beau] || "--";
 
       const utc = new Date(f.created_at);
       document.getElementById("time").innerText = utc.toLocaleTimeString("it-IT");
@@ -182,6 +183,7 @@ setInterval(aggiornaDati, 15000);
 
 </body>
 </html>
+
 
 
 
